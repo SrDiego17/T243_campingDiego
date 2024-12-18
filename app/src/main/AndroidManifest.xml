@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:targetApi="31">
+
+        <!-- Declaración de actividades -->
+        <activity
+            android:name=".ui.ListarParcelas"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.ListarReservas"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.ParcelaEdit"
+            android:exported="false" />
+
+        <!-- Añadida actividad ReservaEdit -->
+        <activity
+            android:name=".ui.ReservaEdit"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.Camping"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+</manifest>

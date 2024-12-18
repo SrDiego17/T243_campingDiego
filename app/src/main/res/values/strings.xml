@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Camping</string>
+    <string name="hint_nombre">Escribe nombre...</string>
+    <string name="hint_nombreCliente">Escribe el nombre del cliente...</string>
+    <string name="hint_descripcion">Escribe descripción...</string>
+    <string name="hint_telefono">Escribe teléfono...</string>
+    <string name="hint_fechaEntrada">Introduce fecha entrada</string>
+    <string name="hint_fechaSalida">Introduce fecha salida</string>
+    <string name="hint_maxOcupantes">Escribe máximo de ocupantes...</string>
+    <string name="hint_precioPorOcupante">Escribe precio por ocupante</string>
+    <string name="button_save">Guardar</string>
+    <string name="empty_not_saved">Parcela no guardada porque el nombre es vacío.</string>
+    <string name="add_note">Añadir parcela</string>
+    <string name="menu_delete">Borrar parcela</string>
+    <string name="menu_edit">Editar parcela</string>
+    <string name="nombre">Nombre</string>
+    <string name="nombreCliente">Nombre Cliente</string>
+    <string name="descripcion">Descripción</string>
+    <string name="telefono">Teléfono</string>
+    <string name="fechaEntrada">Fecha Entrada</string>
+    <string name="fechaSalida">Fecha Salida</string>
+    <string name="max_ocupantes">Máx.ocupantes</string>
+    <string name="precio_ocupante">Precio por ocupante</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string-array name="ordenacionParcelas">
+        <item>Nombre ascendente</item>
+        <item>Nombre descendente</item>
+        <item>Máx ocupantes ascendente</item>
+        <item>Máx ocupantes descendente</item>
+        <item>Precio ascendente</item>
+        <item>Precio descendente</item>
+    </string-array>
+    <string-array name="ordenacionReservas">
+        <item>Nombre cliente ascendente</item>
+        <item>Nombre cliente descendente</item>
+        <item>Teléfono cliente ascendente</item>
+        <item>Teléfono cliente descendente</item>
+        <item>Fecha entrada ascendente</item>
+        <item>Fecha entrada descendente</item>
+    </string-array>
+</resources>
