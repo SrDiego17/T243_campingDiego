@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView_reserva"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
@@ -20,9 +24,9 @@
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_edit_reserva"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_telefono"
@@ -30,54 +34,47 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_edit_reserva"
-            app:layout_constraintTop_toBottomOf="@+id/textView_cliente"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView_cliente" />
 
-
-        <!-- Fecha y Hora de la Reserva -->
         <TextView
             android:id="@+id/textView_fecha"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_edit_reserva"
-            app:layout_constraintTop_toBottomOf="@+id/textView_telefono"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView_telefono" />
 
-        <!-- Precio -->
         <TextView
             android:id="@+id/textView_precio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_edit_reserva"
-            app:layout_constraintTop_toBottomOf="@+id/textView_fecha"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView_fecha" />
 
-        <!-- Botón Eliminar (A la derecha de los TextViews, debajo del botón Editar) -->
+        <!-- Botón Info -->
+        <Button
+            android:id="@+id/button_info_reserva"
+            android:layout_width="107dp"
+            android:layout_height="49dp"
+            android:text="Info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_precio" />
 
-        <!-- Botón Editar (A la derecha de los TextViews) -->
+        <!-- Botón Eliminar -->
         <Button
             android:id="@+id/button_delete_reserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/button_edit_reserva"
-            app:layout_constraintTop_toBottomOf="@+id/button_edit_reserva" />
-
-        <Button
-            android:id="@+id/button_edit_reserva"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView_cliente"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/button_info_reserva" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

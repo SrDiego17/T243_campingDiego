@@ -87,7 +87,7 @@ public class ReservaEdit extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Formato de fecha inválido", Toast.LENGTH_LONG).show();
                 return;
             }
-
+            // COMPROBAR FECHA VALIDA
 
             replyIntent.putExtra(RESERVA_NOMBRE_CLIENTE, nombreCliente);
             replyIntent.putExtra(RESERVA_TELEFONO_CLIENTE, telefonoCliente);
@@ -110,24 +110,8 @@ public class ReservaEdit extends AppCompatActivity {
             // Recuperar datos de texto
             mReservaNombreClienteText.setText(extras.getString(RESERVA_NOMBRE_CLIENTE, ""));
             mReservaTelefonoClienteText.setText(extras.getString(RESERVA_TELEFONO_CLIENTE, ""));
-
-            // Recuperar fechas usando getLong()
-            long fechaEntradaMillis = extras.getLong(RESERVA_FECHA_ENTRADA, -1);
-            long fechaSalidaMillis = extras.getLong(RESERVA_FECHA_SALIDA, -1);
-
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-            // Comprobar y mostrar fechas
-            if (fechaEntradaMillis != -1) {
-                Date fechaEntrada = new Date(fechaEntradaMillis);
-                mReservaFechaEntradaText.setText(sdf.format(fechaEntrada));
-            }
-
-            if (fechaSalidaMillis != -1) {
-                Date fechaSalida = new Date(fechaSalidaMillis);
-                mReservaFechaSalidaText.setText(sdf.format(fechaSalida));
-            }
+            mReservaFechaEntradaText.setText(extras.getString(RESERVA_FECHA_ENTRADA));
+            mReservaFechaSalidaText.setText(extras.getString(RESERVA_FECHA_SALIDA));
 
             // Recuperar ID como int
             int id = extras.getInt(RESERVA_ID, -1);

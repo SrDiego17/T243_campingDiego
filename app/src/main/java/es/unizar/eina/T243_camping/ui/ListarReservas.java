@@ -27,6 +27,7 @@ import java.util.List;
 import es.unizar.eina.T243_camping.database.Parcela;
 import es.unizar.eina.T243_camping.R;
 import es.unizar.eina.T243_camping.database.Reserva;
+import es.unizar.eina.send.*;
 
 public class ListarReservas extends AppCompatActivity {
     public static ReservaViewModel reservaViewModel;
@@ -80,7 +81,7 @@ public class ListarReservas extends AppCompatActivity {
         reservaViewModel = new ViewModelProvider(this).get(ReservaViewModel.class);
 
         adapter = new ReservaListAdapter(new ReservaListAdapter.ReservaDiff(),
-                this::editReserva, this::deleteReserva);
+                this::editReserva, this::deleteReserva, this::infoReserva);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -136,6 +137,31 @@ public class ListarReservas extends AppCompatActivity {
         Reserva reserva = adapter.getCurrentList().get(position);
         reservaViewModel.delete(reserva);
         Toast.makeText(this, "Reserva eliminada", Toast.LENGTH_SHORT).show();
+    }
+
+    private void infoReserva(int position) {
+        Reserva reservaInfo = adapter.getCurrentList().get(position);
+        String phone = String.valueOf(reservaInfo.getTelefonoCliente());
+        String message = "Reserva #" + reservaInfo.getID() +
+                "\nNombre Cliente: " + reservaInfo.getNombreCliente() +
+                "\nFecha Entrada: " + reservaInfo.getFechaEntrada() +
+                "\nFecha Salida: " + reservaInfo.getFechaSalida(); //+
+                //"\nPrecio Reserva: " + reservaInfo.getPrecio() + "€";
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Enviar Información de la Reserva")
+                .setMessage("¿Cómo desea enviar los detalles?")
+                .setPositiveButton("Enviar por SMS", (dialog, which) -> {
+                    SendAbstraction sendAbstraction = new SendAbstractionImpl(this, "SMS");
+                    sendAbstraction.send(phone, message);
+                    Toast.makeText(this, "Enviando detalles por SMS...", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Enviar por WhatsApp", (dialog, which) -> {
+                    SendAbstraction sendAbstraction = new SendAbstractionImpl(this, "WhatsApp");
+                    sendAbstraction.send(phone, message);
+                    Toast.makeText(this, "Enviando detalles por WhatsApp...", Toast.LENGTH_SHORT).show();
+                })
+                .show();
     }
 
     private void iniciarSpinner() {

@@ -49,7 +49,7 @@ public class Reserva {
 
     public String getFechaSalida() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(this.fechaEntrada);
+        return sdf.format(this.fechaSalida);
     }
     public void setFechaSalida(Date fechaSalida) { this.fechaSalida = fechaSalida; }
 
