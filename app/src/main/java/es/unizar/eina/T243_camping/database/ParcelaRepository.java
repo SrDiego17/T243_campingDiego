@@ -119,4 +119,40 @@ public class ParcelaRepository {
             return -1;
         }
     }
+
+    // Obtener nombre de la parcela
+    public String getNombreParcela(int parcelaId) {
+        Future<String> future = CampingRoomDatabase.databaseWriteExecutor.submit(
+                () -> mParcelaDao.getNombreParcela(parcelaId));
+        try {
+            return future.get(TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+            Log.e("ParcelaRepository", "Error obteniendo nombre: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    // Obtener el número máximo de ocupantes
+    public int getMaxOcupantesParcela(int parcelaId) {
+        Future<Integer> future = CampingRoomDatabase.databaseWriteExecutor.submit(
+                () -> mParcelaDao.getMaxOcupantesParcela(parcelaId));
+        try {
+            return future.get(TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+            Log.e("ParcelaRepository", "Error obteniendo maxOcupantes: " + ex.getMessage());
+            return -1;
+        }
+    }
+
+    // Obtener el precio de la parcela
+    public double getPrecioParcela(int parcelaId) {
+        Future<Double> future = CampingRoomDatabase.databaseWriteExecutor.submit(
+                () -> mParcelaDao.getPrecioParcela(parcelaId));
+        try {
+            return future.get(TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+            Log.e("ParcelaRepository", "Error obteniendo precio: " + ex.getMessage());
+            return -1;
+        }
+    }
 }

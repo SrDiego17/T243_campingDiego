@@ -1,5 +1,6 @@
 package es.unizar.eina.T243_camping.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,26 +9,48 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+
 @Dao
 public interface ParcelaReservaDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+
+    // Inserta una relación Parcela-Reserva
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(ParcelaReserva parcelaReserva);
 
+    // Actualiza una relación existente
     @Update
     int update(ParcelaReserva parcelaReserva);
 
+    // Elimina una relación específica
     @Delete
     int delete(ParcelaReserva parcelaReserva);
 
-    @Query("DELETE FROM parcela_reserva")
-    void deleteAll();
+    // Obtiene todas las parcelas asociadas a una reserva específica
+    @Query("SELECT * FROM parcela_reserva WHERE reservaID = :reservaId")
+    LiveData<List<ParcelaReserva>> getParcelasByReserva(long reservaId);
 
-    @Query("SELECT parcelaID FROM parcela_reserva WHERE reservaID = :reservaId")
-    List<Long> selectParcelasIdByReservaId(long reservaId);
+    // Consulta para verificar si una parcela está reservada en fechas específicas
+    @Query("SELECT * FROM parcela_reserva " +
+            "INNER JOIN reserva ON parcela_reserva.reservaID = reserva.id " +
+            "WHERE parcela_reserva.parcelaID = :parcelaId " +
+            "AND (reserva.fecha_entrada <= :fechaSalida AND reserva.fecha_salida >= :fechaEntrada)")
+    LiveData<List<ParcelaReserva>> getParcelasReservadas(int parcelaId, long fechaEntrada, long fechaSalida);
 
-    @Query("SELECT * FROM parcela WHERE id IN (SELECT parcelaID FROM parcela_reserva WHERE reservaID = :reservaId)")
-    List<Parcela> selectParcelasByReservaId(long reservaId);
+    // Obtiene todas las parcelas NO reservadas en un rango de fechas
+    @Query("SELECT * FROM parcela " +
+            "WHERE parcela.id NOT IN (" +
+            "    SELECT parcela_reserva.parcelaID " +
+            "    FROM parcela_reserva " +
+            "    INNER JOIN reserva ON parcela_reserva.reservaID = reserva.id " +
+            "    WHERE (reserva.fecha_entrada <= :fechaSalida AND reserva.fecha_salida >= :fechaEntrada)" +
+            ")")
+    LiveData<List<Parcela>> getParcelasDisponibles(long fechaEntrada, long fechaSalida);
 
-    @Query("SELECT * FROM reserva WHERE id IN (SELECT reservaID FROM parcela_reserva WHERE parcelaID = :parcelaId)")
-    List<Reserva> selectReservasByParcelaId(long parcelaId);
+
+    @Query("DELETE FROM parcela_reserva WHERE reservaID = :reservaID")
+    void eliminarParcelasReserva(long reservaID);
+
+    @Query("SELECT * FROM parcela WHERE id = :parcelaId")
+    LiveData<Parcela> getParcelaById(int parcelaId);
+
 }

@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.ListAdapter;
 import es.unizar.eina.T243_camping.database.Parcela;
 
 public class ParcelaListAdapter extends ListAdapter<Parcela, ParcelaViewHolder> {
-    private final OnEditClickListener editListener;
+    private final OnItemClickListener itemClickListener;
     private final OnDeleteClickListener deleteListener;
 
-
-    public ParcelaListAdapter(@NonNull DiffUtil.ItemCallback<Parcela> diffCallback,
-                              OnEditClickListener editListener, OnDeleteClickListener deleteListener) {
+    public ParcelaListAdapter(
+            @NonNull DiffUtil.ItemCallback<Parcela> diffCallback,
+            OnItemClickListener itemClickListener,
+            OnDeleteClickListener deleteListener) {
         super(diffCallback);
-        this.editListener = editListener;
+        this.itemClickListener = itemClickListener;
         this.deleteListener = deleteListener;
     }
 
@@ -28,11 +29,12 @@ public class ParcelaListAdapter extends ListAdapter<Parcela, ParcelaViewHolder> 
     @Override
     public void onBindViewHolder(ParcelaViewHolder holder, int position) {
         Parcela current = getItem(position);
-        holder.bind(current, editListener, deleteListener);
+        holder.bind(current, itemClickListener, deleteListener);
     }
 
-    public interface OnEditClickListener {
-        void onEditClick(int position);
+    // Interfaces para eventos de clic
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
     public interface OnDeleteClickListener {
@@ -40,21 +42,14 @@ public class ParcelaListAdapter extends ListAdapter<Parcela, ParcelaViewHolder> 
     }
 
     static class ParcelaDiff extends DiffUtil.ItemCallback<Parcela> {
-
         @Override
         public boolean areItemsTheSame(@NonNull Parcela oldItem, @NonNull Parcela newItem) {
-            //android.util.Log.d ( "ParcelaDiff" , "areItemsTheSame " + oldItem.getId() + " vs " + newItem.getId() + " " +  (oldItem.getId() == newItem.getId()));
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Parcela oldItem, @NonNull Parcela newItem) {
-            //android.util.Log.d ( "ParcelaDiff" , "areContentsTheSame " + oldItem.getTitle() + " vs " + newItem.getTitle() + " " + oldItem.getTitle().equals(newItem.getTitle()));
-            // We are just worried about differences in visual representation, i.e. changes in the title
-            return oldItem.getNombre().equals(newItem.getNombre());
+            return oldItem.equals(newItem);
         }
     }
 }
-
-
-

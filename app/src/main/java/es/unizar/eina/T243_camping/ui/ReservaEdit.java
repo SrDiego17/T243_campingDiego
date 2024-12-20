@@ -3,6 +3,7 @@ package es.unizar.eina.T243_camping.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -38,7 +39,9 @@ public class ReservaEdit extends AppCompatActivity {
     private EditText mReservaFechaSalidaText;
 
 
-    private Integer mRowId; // Diego : No se si se usará o no
+    private Integer mRowId;
+
+    private long reservaID = -1;
 
     Button mSaveButton;
 
@@ -53,6 +56,8 @@ public class ReservaEdit extends AppCompatActivity {
         mReservaFechaEntradaText = findViewById(R.id.fechaEntrada);
         mReservaFechaSalidaText = findViewById(R.id.fechaSalida);
 
+        reservaID = getIntent().getLongExtra(RESERVA_ID, -1);
+        // Log.d("ID DE RESERVA", "La reserva tiene id: " + reservaID);
         // Inicializar el botón de guardar
         mSaveButton = findViewById(R.id.button_save);
         mSaveButton.setOnClickListener(view -> saveReserva());
@@ -65,43 +70,56 @@ public class ReservaEdit extends AppCompatActivity {
     }
 
     private void saveReserva() {
-        Intent replyIntent = new Intent();
-
         if (TextUtils.isEmpty(mReservaNombreClienteText.getText())) {
-            setResult(RESULT_CANCELED, replyIntent);
-            Toast.makeText(getApplicationContext(), R.string.empty_not_saved, Toast.LENGTH_LONG).show(); // DESCONOZCO COMO CAMBIAR LO DEL R EMPTY NOT SAVED
-        } else {
-            // Obtener los valores de los campos
-            String nombreCliente = mReservaNombreClienteText.getText().toString();
-            String telefonoCliente = mReservaTelefonoClienteText.getText().toString();
-            String fechaEntradaStr = mReservaFechaEntradaText.getText().toString();
-            String fechaSalidaStr = mReservaFechaSalidaText.getText().toString();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            Date fechaEntrada = null;
-            Date fechaSalida = null;
-            try {
-                fechaEntrada = sdf.parse(fechaEntradaStr);
-                fechaSalida = sdf.parse(fechaSalidaStr);
-            } catch (ParseException e) {
-                Toast.makeText(getApplicationContext(), "Formato de fecha inválido", Toast.LENGTH_LONG).show();
-                return;
-            }
-            // COMPROBAR FECHA VALIDA
-
-            replyIntent.putExtra(RESERVA_NOMBRE_CLIENTE, nombreCliente);
-            replyIntent.putExtra(RESERVA_TELEFONO_CLIENTE, telefonoCliente);
-            replyIntent.putExtra(RESERVA_FECHA_ENTRADA, fechaEntrada.getTime());
-            replyIntent.putExtra(RESERVA_FECHA_SALIDA, fechaSalida.getTime());
-
-            if (mRowId != null) {
-                replyIntent.putExtra(RESERVA_ID, mRowId);
-            }
-
-            setResult(RESULT_OK, replyIntent);
+            Toast.makeText(getApplicationContext(), R.string.empty_not_saved, Toast.LENGTH_LONG).show();
+            return;  // Detener si el nombre está vacío
         }
-        finish();
+
+        // Obtener los valores de los campos
+        String nombreCliente = mReservaNombreClienteText.getText().toString();
+        String telefonoCliente = mReservaTelefonoClienteText.getText().toString();
+        String fechaEntradaStr = mReservaFechaEntradaText.getText().toString();
+        String fechaSalidaStr = mReservaFechaSalidaText.getText().toString();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date fechaEntrada, fechaSalida;
+
+        try {
+            fechaEntrada = sdf.parse(fechaEntradaStr);
+            fechaSalida = sdf.parse(fechaSalidaStr);
+        } catch (ParseException e) {
+            Toast.makeText(getApplicationContext(), "Formato de fecha inválido", Toast.LENGTH_LONG).show();
+            return;  // Detener en caso de error
+        }
+
+        // Validar fechas
+        if (fechaEntrada == null || fechaSalida == null || fechaSalida.before(fechaEntrada)) {
+            Toast.makeText(getApplicationContext(), "La fecha de salida debe ser posterior a la de entrada.", Toast.LENGTH_LONG).show();
+            return;  // Detener si las fechas no son válidas
+        }
+
+        // Comprobar si las fechas son anteriores a hoy
+        Date fechaHoy = new Date(); // Fecha actual
+        if (fechaEntrada.before(fechaHoy) || fechaSalida.before(fechaHoy)) {
+            Toast.makeText(getApplicationContext(), "Las fechas no pueden ser anteriores a hoy.", Toast.LENGTH_LONG).show();
+            return;  // Detener si alguna fecha es anterior a hoy
+        }
+
+
+        // Redirigir a ListarParcelasReserva pasando los datos
+        Intent intent = new Intent(this, ListarParcelasReserva.class);
+        intent.putExtra(RESERVA_NOMBRE_CLIENTE, nombreCliente);
+        intent.putExtra(RESERVA_TELEFONO_CLIENTE, telefonoCliente);
+        intent.putExtra(RESERVA_FECHA_ENTRADA, fechaEntrada.getTime());
+        intent.putExtra(RESERVA_FECHA_SALIDA, fechaSalida.getTime());
+        intent.putExtra(RESERVA_ID, reservaID);
+        //Log.d("ID DE RESERVA", "La reserva QUE PONGO tiene id: " + reservaID);
+        startActivity(intent);  // Iniciar la nueva actividad
+        finish();  // Cerrar la actividad actual
     }
+
+
+
 
     private void populateFields() {
         mRowId = null;
@@ -112,12 +130,6 @@ public class ReservaEdit extends AppCompatActivity {
             mReservaTelefonoClienteText.setText(extras.getString(RESERVA_TELEFONO_CLIENTE, ""));
             mReservaFechaEntradaText.setText(extras.getString(RESERVA_FECHA_ENTRADA));
             mReservaFechaSalidaText.setText(extras.getString(RESERVA_FECHA_SALIDA));
-
-            // Recuperar ID como int
-            int id = extras.getInt(RESERVA_ID, -1);
-            if (id != -1) {
-                mRowId = id;
-            }
         }
     }
 

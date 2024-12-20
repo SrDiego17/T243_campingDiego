@@ -37,7 +37,7 @@ class ReservaViewHolder extends RecyclerView.ViewHolder {
         mClienteTextView.setText(reserva.getNombreCliente());
         mTelefonoTextView.setText(reserva.getTelefonoCliente());
         mFechaTextView.setText(reserva.getFechaEntrada().toString());
-        mPrecioTextView.setText(String.format("%.2f€", reserva.calcularPrecio()));
+        mPrecioTextView.setText(String.format("%.2f€", reserva.getPrecioTotal()));
 
         // Manejar clic en toda la tarjeta
         cardView.setOnClickListener(v -> itemClickListener.onItemClick(getAdapterPosition()));

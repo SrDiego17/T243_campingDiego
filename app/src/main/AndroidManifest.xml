@@ -26,11 +26,16 @@
             android:name=".ui.ParcelaEdit"
             android:exported="false" />
 
-        <!-- Añadida actividad ReservaEdit -->
         <activity
             android:name=".ui.ReservaEdit"
             android:exported="false" />
 
+        <!-- Nueva actividad ListarParcelasReserva -->
+        <activity
+            android:name=".ui.ListarParcelasReserva"
+            android:exported="false" />
+
+        <!-- Actividad principal Camping -->
         <activity
             android:name=".ui.Camping"
             android:exported="true">
@@ -41,7 +46,10 @@
         </activity>
 
     </application>
+
+    <!-- Consulta externa para compatibilidad -->
     <queries>
         <package android:name="com.whatsapp" />
     </queries>
+
 </manifest>

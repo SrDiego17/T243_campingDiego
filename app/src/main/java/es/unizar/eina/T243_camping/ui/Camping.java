@@ -73,7 +73,8 @@ public class Camping extends AppCompatActivity {
                         extras.getString(ReservaEdit.RESERVA_NOMBRE_CLIENTE),
                         extras.getString(ReservaEdit.RESERVA_TELEFONO_CLIENTE),
                         new Date(extras.getLong(ReservaEdit.RESERVA_FECHA_ENTRADA)),
-                        new Date(extras.getLong(ReservaEdit.RESERVA_FECHA_SALIDA))
+                        new Date(extras.getLong(ReservaEdit.RESERVA_FECHA_SALIDA)),
+                        0
                 );
                 ListarReservas.reservaViewModel.insert(reserva);
             });

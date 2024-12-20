@@ -128,6 +128,7 @@ public class ListarReservas extends AppCompatActivity {
         intent.putExtra(ReservaEdit.RESERVA_NOMBRE_CLIENTE, mReserva.getNombreCliente());
         intent.putExtra(ReservaEdit.RESERVA_TELEFONO_CLIENTE, mReserva.getTelefonoCliente());
         intent.putExtra(ReservaEdit.RESERVA_ID, mReserva.getID());
+        //Log.d("ID DE RESERVA EN LISTA RESERVAS", "La reserva tiene id: " + mReserva.getID());
         intent.putExtra(ReservaEdit.RESERVA_FECHA_ENTRADA, mReserva.getFechaEntrada());
         intent.putExtra(ReservaEdit.RESERVA_FECHA_SALIDA, mReserva.getFechaSalida());
         startActivityForResult(intent, 1);
@@ -145,8 +146,8 @@ public class ListarReservas extends AppCompatActivity {
         String message = "Reserva #" + reservaInfo.getID() +
                 "\nNombre Cliente: " + reservaInfo.getNombreCliente() +
                 "\nFecha Entrada: " + reservaInfo.getFechaEntrada() +
-                "\nFecha Salida: " + reservaInfo.getFechaSalida(); //+
-                //"\nPrecio Reserva: " + reservaInfo.getPrecio() + "€";
+                "\nFecha Salida: " + reservaInfo.getFechaSalida() +
+                "\nPrecio Reserva: " + reservaInfo.getPrecioTotal() + "€";
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Enviar Información de la Reserva")

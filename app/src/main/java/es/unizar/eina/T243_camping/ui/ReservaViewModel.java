@@ -24,7 +24,7 @@
 
         LiveData<List<Reserva>> getAllReservas() { return mAllReservas; }
 
-        public void insert(Reserva reserva) { mRepository.insert(reserva); }
+        public long insert(Reserva reserva) { return mRepository.insert(reserva); }
 
         public void update(Reserva reserva) { mRepository.update(reserva); }
 

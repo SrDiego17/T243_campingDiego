@@ -34,5 +34,17 @@ public interface ParcelaDao {
 
     @Query("SELECT * FROM parcela ORDER BY precioPorOcupante ASC")
     LiveData<List<Parcela>> getOrderedParcelasPrecio();
+
+    // Devuelve el nombre de la parcela por su ID
+    @Query("SELECT nombre FROM parcela WHERE id = :parcelaId")
+    String getNombreParcela(int parcelaId);
+
+    // Devuelve el número máximo de ocupantes de la parcela por su ID
+    @Query("SELECT maxOcupantes FROM parcela WHERE id = :parcelaId")
+    int getMaxOcupantesParcela(int parcelaId);
+
+    // Devuelve el precio de la parcela por su ID
+    @Query("SELECT precioPorOcupante FROM parcela WHERE id = :parcelaId")
+    double getPrecioParcela(int parcelaId);
 }
 

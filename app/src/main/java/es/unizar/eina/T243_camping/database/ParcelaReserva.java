@@ -7,7 +7,7 @@ import androidx.room.Entity;
 public class ParcelaReserva {
 
     @ColumnInfo (name = "reservaID")
-    int reservaID;
+    long reservaID;
 
     @ColumnInfo (name = "parcelaID")
     int parcelaID;
@@ -15,19 +15,20 @@ public class ParcelaReserva {
     @ColumnInfo (name = "numOcupantes")
     int numOcupantes;
 
-    public ParcelaReserva(int reservaID, int parcelaID, int numOcupantes) {
+
+    public ParcelaReserva(long reservaID, int parcelaID, int numOcupantes) {
         this.reservaID = reservaID;
         this.parcelaID = parcelaID;
         this.numOcupantes = numOcupantes;
     }
 
     /** Devuelve el identificador de la nota */
-    public int getReservaID(){
+    public long getReservaID(){
         return this.reservaID;
     }
 
     /** Permite actualizar el identificador de una nota */
-    public void setReservaID(int id) {
+    public void setReservaID(long id) {
         this.reservaID = id;
     }
 
@@ -47,7 +48,7 @@ public class ParcelaReserva {
     }
 
     /** Permite actualizar el identificador de una nota */
-    public void getNumOcupantes(int numOcupantes) {
+    public void setNumOcupantes(int numOcupantes) {
         this.numOcupantes = numOcupantes;
     }
 }

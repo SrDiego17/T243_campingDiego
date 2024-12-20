@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Parcela.class, Reserva.class, ParcelaReserva.class}, version = 1, exportSchema = false)
+@Database(entities = {Parcela.class, Reserva.class, ParcelaReserva.class}, version = 2, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class CampingRoomDatabase extends RoomDatabase {
 
@@ -33,7 +33,7 @@ public abstract class CampingRoomDatabase extends RoomDatabase {
             synchronized (CampingRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    CampingRoomDatabase.class, "camping_database")
+                                    CampingRoomDatabase.class, "camping_databasee")
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -78,4 +78,7 @@ public abstract class CampingRoomDatabase extends RoomDatabase {
         }
     };
 
+    public static ExecutorService getDatabaseWriteExecutor() {
+        return databaseWriteExecutor;
+    }
 }
